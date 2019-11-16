@@ -44,7 +44,7 @@ int main(){
 		for( int i = 0; i < n; i++ ){
 			scanf("%d%*c%*c%d%*c", &u, &num);
 			while(num--){
-				scanf("%d", &v);
+				cin >> v;
 				g[u].push_back(v);
 				g[v].push_back(u);
 			}
