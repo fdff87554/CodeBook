@@ -42,7 +42,7 @@ int main(){
 		memset(g, 0, sizeof(g));
 		int u, num, v;
 		for( int i = 0; i < n; i++ ){
-			scanf("%d%*c%*c%d%*c", &u, &num);
+			scanf("%d%\*c%\*c%d%\*c", &u, &num);	// the \ is unneed
 			while(num--){
 				scanf("%d", &v);
 				g[u].push_back(v);
