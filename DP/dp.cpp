@@ -1,3 +1,7 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
 int n, dp[N][2], visited[N];
 bool visited[N];
 vector<int > g[N];
