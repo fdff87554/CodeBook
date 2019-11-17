@@ -24,4 +24,6 @@
 
 * how to set tag in git : https://git-scm.com/book/zh-tw/v1/Git-%E5%9F%BA%E7%A4%8E-%E6%A8%99%E7%B1%A4
 
+* git push origin d-2019/11/14.t-1647
+
 ### Step 7: get the codebook in the releases in github
