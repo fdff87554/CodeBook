@@ -1,22 +1,39 @@
-INCLUDE headers.inc
+;Program : Number output
+
+.386
+.MODEL FLAT, STDCALL
+
+INCLUDE Header.inc
+
+;[ EBP + 12 ] Ans
+;[ EBP + 8 ] Sd
+
 .code
-output PROC C
-_Start :
-	PUSH EBP
-	MOV EBP, ESP
-	MOV EAX, [EBP + 8]								;EAX 為sum
-	CMP EAX, 0										;若大於 0 跳至 postive
-	JGE _Postive				
-	CALL WriteInt
-	CALL Crlf
-	MOV ESP, EBP
-	POP EBP
-	RET 4
-_Postive :
-	CALL WriteDec
-	CALL Crlf
-	MOV ESP, EBP
-	POP EBP
-	RET	4
-output ENDP
+
+Nou PROC
+
+	Start:
+		PUSH EBP
+		MOV EBP, ESP
+		MOV EBX, [ EBP + 12 ]
+		MOV EDX, [ EBP + 8 ]
+
+		CMP EDX, 1																				;EDX = Sd，如果Sd為1，則其數字為正數，否則為負數
+		JNE Negative
+
+		MOV EAX, EBX
+		CALL WriteDec
+		JMP Stop
+
+	Negative:
+		MOV EAX, EBX
+		NEG EAX
+		CALL WriteInt
+
+	Stop:
+		MOV ESP, EBP
+		POP EBP
+		RET
+
+Nou ENDP
 END

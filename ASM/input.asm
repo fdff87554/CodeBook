@@ -1,17 +1,31 @@
-INCLUDE headers.inc
+;Program : String input
+
+.386
+.MODEL FLAT, STDCALL
+
+INCLUDE Header.inc
+
+;[ EBP + 12 ] OFFSET TestStr
+;[ EBP + 8 ] OFFSET StrCount
+
 .code
-input PROC C
-_Start :	
-	PUSH EBP								;初始化
-	MOV EBP, ESP							;初始化
-	MOV EDX, [EBP + 12]						;EDX 指向 string的位址
-	MOV ECX, 51								;ECX設成50讓ReadString最多只能輸入50個字元(+1留給 '\0')
+
+Sin PROC
+	
+	PUSH EBP
+	MOV EBP, ESP
+	MOV ESI, [ EBP + 12 ]																;OFFSET TestStr
+	MOV EBX, [ EBP + 8 ]																;OFFSET StrCount
+
+	MOV EDX, ESI
+	MOV ECX, 1000
 	CALL ReadString
-	MOV ECX, [EBP + 8]						;ECX 指向 stringLength的住址
-	MOV [ECX], EAX							;[ECX] 讓我們直接對 stringLength做改值 EAX內存放著ReadString完有多少Character被輸入
-_Finish :
-	MOV ESP, EBP							
+	MOV [ EBX ], EAX																		;將 EAX 的值存入[ EBX ]，也就是 StrCount
+	CALL Crlf
+
+	MOV ESP, EBP
 	POP EBP
 	RET 8
-input ENDP
+
+Sin ENDP
 END
