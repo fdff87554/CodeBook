@@ -1,66 +1,55 @@
-;Program : String to Numbers
-
-.386
-.MODEL FLAT, STDCALL
-.STACK 4096
-
-INCLUDE Header.inc
-
+INCLUDE Irvine32.inc
+INCLUDELIB legacy_stdio_definitions.lib
+INCLUDELIB ucrt.lib
 .data
-	
-	TestStr BYTE 1000 DUP(0)
-	StrCount DWORD ?
-
-	Now DWORD 0
-	Ans SDWORD 0
-	Sd SDWORD 1																			;判斷正負數用
-	Space BYTE " ", 0
-
+sum SDWORD 0
+multiple DWORD 10
+string BYTE 50 DUP (?)
+stringLength SDWORD ?
+negative SDWORD 1
 .code
-
-TestMain PROC
-
-	Read:
-		MOV Now, 0																			;記目前做到位置
-		PUSH OFFSET TestStr
-		PUSH OFFSET StrCount
-		CALL Sin
-		;ADD ESP, 8
-
-	Change:
-		MOV ESI, OFFSET TestStr													;每次遇到空格，跳出StoN副程式，並記住做到哪
-		ADD ESI, Now																		;再次進副程式時，從上次記住的位置開始做
-
-		PUSH OFFSET Now
-		PUSH ESI
-		PUSH StrCount
-		PUSH OFFSET Ans
-		PUSH OFFSET Sd
-		CALL StoN
-		ADD ESP, 20
-
-	Write:
-		PUSH Ans
-		PUSH Sd
-		CALL Nou
-		ADD ESP, 8
-		MOV EDX, OFFSET Space
-		CALL WriteString
-
-		MOV ECX, Now																	;比較做到的位置是否已是字串尾，不是則再次進到副程式
-		CMP ECX, StrCount																;是則結束並到Read再次做讀入
-		JNE Clear
-		CALL Crlf
-		CALL Crlf
-		JMP Read
-
-	Clear:
-		MOV Ans, 0																			;因為碰到空格，所以輸出的值以及正負號判斷都要更新
-		MOV Sd, 1
-		JMP Change
-
-	Over:
-		RET
-
-TestMain ENDP
-END TestMain
+main PROC C
+_Start :
+	MOV sum, 0									;初始化
+	MOV negative, 1								;初始化
+	MOV EDX, OFFSET string						;EDX指向string的位置
+	MOV ECX, SIZEOF string						;控制string最高能輸入多少字元	
+	CALL ReadString
+	MOV stringLength, EAX						;字元的數目會放入EAX
+	MOV ECX, EAX
+_GetNumbers :	
+	PUSH ECX
+	PUSH EDX
+	MOVSX EAX, BYTE PTR [EDX]					;把EDX指向的位置 放一個BYTE 到EAX
+	CMP EAX, 45									;ASCII 45 代表為負的
+	JNE _IsaDigit
+	MOV negative, -1							
+_IsaDigit :	
+	CALL IsDigit
+	JNZ _SetEDX									;若旗標值未set 則跳走
+	SUB EAX, 48									;把字元從ASCII轉為數字
+	MOV ECX, EAX								;暫時把當前的數字存入ECX
+	MOV EAX, sum								;將之前的放入EAX
+	MUL multiple								;並乘10
+	MOV sum, EAX								;再放回sum
+	ADD sum, ECX								;加回當前數字
+_SetEDX :
+	POP EDX
+	POP ECX
+	INC EDX
+	LOOP _GetNumbers
+_Finish	:
+	MOV EAX, sum
+	IMUL negative
+	CMP EAX, 0
+	JGE _Postive
+	CALL WriteInt
+	CALL Crlf
+	JMP _Start
+_Postive :
+	CALL WriteDec
+	CALL Crlf
+	JMP _Start
+	RET
+main ENDP
+END main
