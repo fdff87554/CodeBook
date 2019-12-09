@@ -25,12 +25,16 @@ main PROC
 		call input
 
 		push offset outputInt				; give the outputInt by pass-by-pointer
-		call typeChange
+		; make space as a change of the word group
+		outputLoop:
+			call typeChange
+			call output
+			cmp stringLength, 0
+			jg outputLoop
 
-		call output
-		cmp outputInt, 0
+		call Crlf
+		cmp outputInt, 0					; if the last output is 0, finish the code
 		je getOut
-
 		add esp, 12							; clear the used stack
 	jmp whileLoop
 

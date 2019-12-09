@@ -33,7 +33,7 @@ typeChange PROC
 		mov al, [esi + ebx]			; mov the char to al
 
 		call IsDigit				; check if is number
-		jnz checkNegative			; check if is "-"
+		jnz checkChar				; check what char it is
 
 		mov eax, 0
 		mov al, [esi + ebx]			; mov char to al again to make sure the al is not change by work
@@ -44,9 +44,14 @@ typeChange PROC
 		add outputNum, eax
 	jmp changeWork
 
-	checkNegative:
-		cmp eax, '-'
-		je reminderChange
+	checkChar:
+		checkSpace:
+			cmp eax, ' '
+			je negativeCheck
+
+		checkNegative:
+			cmp eax, '-'
+			je reminderChange
 	jmp changeWork
 
 	reminderChange:
@@ -61,9 +66,17 @@ typeChange PROC
 		mov outputNum, eax
 
 	getOut:
+		; put the output number to the offset of outputInt
 		mov ecx, [ebp + 8]			; the offset of outputInt
 		mov eax, outputNum
 		mov [ecx], eax
+		; inputString address change
+		inc ebx
+		add esi, ebx
+		mov [ebp + 16], esi
+		; sub the stringLength
+		mov ecx, [ebp + 12]			; the offset of stringLength
+		sub [ecx], ebx
 		mov esp, ebp
 		pop ebp
 		ret

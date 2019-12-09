@@ -8,6 +8,7 @@ includelib ucrt.lib
 include header.inc
 
 .data
+space DWORD ' '
 
 .code
 output PROC
@@ -19,12 +20,12 @@ output PROC
 	mov ecx, [ebp + 8]				; the offset of outputInt
 
 	;the way to output string by using WriteString 
-	mov edx, esi		; mov the offset of string to edx
-	call WriteString	; call WriteString
-	call Crlf
-	mov eax, [ebx]		; mov the string length ot eax
-	call WriteDec		; call WriteDec
-	call Crlf
+	;mov edx, esi		; mov the offset of string to edx
+	;call WriteString	; call WriteString
+	;call Crlf
+	;mov eax, [ebx]		; mov the string length ot eax
+	;call WriteDec		; call WriteDec
+	;call Crlf
 
 	mov eax, [ecx]		; mov the outputInt to eax
 	ifCheck:			; if eax >= 0, use WriteDec
@@ -37,10 +38,10 @@ output PROC
 		call WriteInt
 
 	getOut:
-		call Crlf
+		mov eax, space
+		call WriteChar
 		mov esp, ebp
 		pop ebp
 		ret
 output ENDP
 END
-
