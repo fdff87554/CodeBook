@@ -2,7 +2,9 @@
 
 using namespace std;
 
-// Containers
+#define pb push_back
+#define all(x) x.begin(), x.end()
+
 vector<data_type> variable_name;
     // Tools of containers
     .size();        // vector size
@@ -60,7 +62,7 @@ set<data_type> variable_name;
             mySet.erase(20);                    // mySet = {10, 30}
             cout << mySet.count(20) << endl;    // 0
         }
-map<data_type, data_type> variable_name;
+map <data_type, data_type> variable_name;
     .at();
     .count();
         int main(){
@@ -73,7 +75,7 @@ map<data_type, data_type> variable_name;
             cout << m.count("two") << endl;     // 1 -> 有對應
             cout << m.count("ten") << endl;     // 0 -> 沒有對應
         }
-list<data_type> variable_name;
+list <data_type> variable_name;
     .push_front();
     .push_back();
     .pop_front();
@@ -81,10 +83,11 @@ list<data_type> variable_name;
     .remove();
     .swap();
     .sort();
-pair<data_type, data_type> variable_name;
-// Tools of containers
-.size();
-.clear();
+pair <data_type, data_type> variable_name;
+    // Tools of containers
+    .size();
+    .clear();
+    vector.push_back( make_pair(first, second) );
 // Algorithms
 // small to big
 sort(array_begin, array_least);
