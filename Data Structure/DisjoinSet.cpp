@@ -1,34 +1,36 @@
-#define SIZE 10000
-
-int arr[SIZE];
-
-void init(int n) // give a initial length
+struct DisjointSet
 {
-	for(int i=0; i<n; i++)
-		arr[i] = -1;
-}
+    int p[MXV], sz[MXV];
+    void init(int n)
+    {
+        for (int i = 0; i <= n; i++)
+        {
+            p[i] = i;
+            sz[i] = 1;
+        }
+    }
+    int find(int u) { return u == p[u] ? u : p[u] = find(p[u]); }
+    void Union(int u, int v)
+    {
+        u = find(u);
+        v = find(v);
+        if(u == v)
+        {
+            return;
+        }
+        if(sz[u] < sz[v])
+        {
+            swap(u, v);
+        }
+        sz[u] += sz[v];
+        p[v] = u;
+    }
+};
 
-int find(int x)
-{ // find the father point
-	return arr[x] < 0 ? x : (arr[x] = find(arr[x])); // update every child to the other father
-}
-
-void Union(int x, int y)
-{
-	x = find(x);
-	y = find(y);
-	
-	if(x == y)
-		return;
-
-	if(arr[x] <= arr[y])
-	{
-		arr[x] += arr[y];
-		arr[y] = x;
-	}
-	else
-	{
-		arr[y] += arr[x];
-		arr[x] = y;
-	}
-}
+/*
+Usage
+DisjointSet djs; // declare
+djs.init(int n); // initialize from vertex 0 to vertex n
+djs.find(int u) // find the parent of vertex u
+djs.Union(int u, int v) // union vertex u and v
+*/

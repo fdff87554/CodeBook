@@ -1,9 +1,10 @@
 ### EOF
-while True:
-	try:
-		pass
-	except EOFError:
-		break
+try:
+    while True:
+        m, n = map(int, input().split())
+        print(m, n, end = '\n')
+except EOFError:
+    pass
 
 ### input output
 

@@ -7,6 +7,7 @@ using namespace std;
 #define PQ priority_queue
 #define MP make_pair
 #define ll long long
+#define PII pair <int, int>
 
 vector<data_type> variable_name;
     // Tools of containers
@@ -99,6 +100,12 @@ priority_queue <data_type> variable_name;
     .emplace(); // not useful
     .pop();
     .swap();
+// fill
+    int arr[200];
+    fill(begin(arr), end(arr), 100);
+    vector<int> v;
+    v.push_back(11);
+    fill(v.begin(), v.end(), 2222);
 // Algorithms
 // small to big
 sort(array_begin, array_least);

@@ -1,42 +1,62 @@
-#include <bits/stdc++.h>
-using namespace std;
+struct Dijkstra
+{
+    const int INF = 1000000000;
+    int d[MXV], p[MXV];
+    vector<Edge> E;
+    vector<int> v[MXV];
+    bitset<MXV> vis;
 
-#define MP make_pair
-#define PII pair<int, int>
-#define maxn 50000+5
-
-int dis[maxn]; // 預設都是 INF
-vector<PII > e[maxn]; // (連到的點， 邊的距離)
-
-void dijk(int cur) // dijk(起點)
-{ 
-  int d;
-  priority_queue<PII,vector<PII>,greater<PII>> q; // 放 (距離, 點編號)，每次會拿距離最小的點出來
-  q.push( MP(0, cur) );
-    
-  while (!q.empty()) 
-  {
-    tie(d, cur) = q.top();
-    q.pop();
-    if (dis[cur] != 1e9) 
-        continue; // 如果之前就拜訪過，無視
-
-    dis[cur] = d;
-
-    for (auto i: e[cur])
-        if (dis[i.first] == 1e9) 
+    void init()
+    {
+        fill(d, d + MXV, INF);
+        memset(p, 0, sizeof(p));
+        E.clear();
+        for (int i = 0; i < MXV; i++)
         {
-            q.push( MP(d+i.second, i.first) );
+            v[i].clear();
+        }
+        vis.reset();
+    }
+
+    void addEdge(int from, int to, int w)
+    {
+        v[from].push_back(E.size());
+        E.push_back(Edge{from, to, w});
+    }
+
+    void dijkstra(int s)
+    {
+        d[s] = 0;
+        priority_queue<PII, vector<PII>, greater<PII>> states;
+        vis.reset();
+        states.push(MP(d[s], s));
+        while (!states.empty())
+        {
+            PII state = states.top();
+            states.pop();
+            if (vis[state.second])
+            {
+                continue;
+            }
+            vis[state.second] = true;
+            for (int u : v[state.second])
+            {
+                Edge e = E[u];
+                if (d[e.to] > d[e.from] + e.w)
+                {
+                    d[e.to] = d[e.from] + e.w;
+                    p[e.to] = e.from;
+                    states.push(MP(d[e.to], e.to));
+                }
+            }
         }
     }
-}
+};
 
-void init(void)
-{
-    fill(dis, dis+maxn, 1e9);
-
-    for(int i = 0; i < maxn; i++)
-    {
-        e[i].clear();
-    }
-}
+/*
+Usage
+Dijkstra dijkstra; // declare
+dijkstra.init();
+dijsktra.addEdge(int from, int to, int w); // add a directional Edge
+dijkstra.dijkstra(int s) // calculation shortest distance from s
+*/
