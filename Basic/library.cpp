@@ -2,8 +2,11 @@
 
 using namespace std;
 
-#define pb push_back
+#define PB push_back
 #define all(x) x.begin(), x.end()
+#define PQ priority_queue
+#define MP make_pair
+#define ll long long
 
 vector<data_type> variable_name;
     // Tools of containers
@@ -88,6 +91,14 @@ pair <data_type, data_type> variable_name;
     .size();
     .clear();
     vector.push_back( make_pair(first, second) );
+priority_queue <data_type> variable_name;
+    .empty();
+    .size();
+    .top();
+    .push();
+    .emplace(); // not useful
+    .pop();
+    .swap();
 // Algorithms
 // small to big
 sort(array_begin, array_least);
