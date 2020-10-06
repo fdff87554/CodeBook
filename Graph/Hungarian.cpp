@@ -5,23 +5,20 @@ using namespace std;
 #define PB push_back
 #define maxn 50005
 
-struct edge
-{
+struct edge{
     int t,next;
 }   in[maxn*8];
 
 int n,m,e,first[maxn];
 bool vis[maxn],fail,side[maxn];
 
-void add(int x,int y)
-{
+void add(int x,int y){
     in[e].t=y;
     in[e].next=first[x];
     first[x]=e++;
 }
 
-void dfs(int cur,bool tf)
-{
+void dfs(int cur,bool tf){
     vis[cur]=true;
     side[cur]=tf;
     for(int i = first[cur]; ~i; i = in[i].next)
@@ -35,8 +32,7 @@ void dfs(int cur,bool tf)
     }
 }
 
-int main(void)
-{
+int main(void){
     int x,y;
     while(cin >> n >> m)
     {
@@ -64,3 +60,5 @@ int main(void)
     }
     return 0;
 }
+
+// 二分圖匹配，婚姻配對

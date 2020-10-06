@@ -100,8 +100,8 @@ struct Dinic
     }
 };
 
-/*
-usage
+// 最大力流
+/* usage
 Dinic<int> dinic; // declare, flow type is int
 dinic.init(n, s, t); // initialize, n vertexs, start from s to t
 dinic.add_edge(x, y, z); // add edge from x to y, weight is z

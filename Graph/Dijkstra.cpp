@@ -1,62 +1,41 @@
-struct Dijkstra
-{
-    const int INF = 1000000000;
-    int d[MXV], p[MXV];
-    vector<Edge> E;
-    vector<int> v[MXV];
-    bitset<MXV> vis;
-
-    void init()
-    {
-        fill(d, d + MXV, INF);
-        memset(p, 0, sizeof(p));
-        E.clear();
-        for (int i = 0; i < MXV; i++)
-        {
-            v[i].clear();
-        }
-        vis.reset();
-    }
-
-    void addEdge(int from, int to, int w)
-    {
-        v[from].push_back(E.size());
-        E.push_back(Edge{from, to, w});
-    }
-
-    void dijkstra(int s)
-    {
-        d[s] = 0;
-        priority_queue<PII, vector<PII>, greater<PII>> states;
-        vis.reset();
-        states.push(MP(d[s], s));
-        while (!states.empty())
-        {
-            PII state = states.top();
-            states.pop();
-            if (vis[state.second])
-            {
-                continue;
-            }
-            vis[state.second] = true;
-            for (int u : v[state.second])
-            {
-                Edge e = E[u];
-                if (d[e.to] > d[e.from] + e.w)
-                {
-                    d[e.to] = d[e.from] + e.w;
-                    p[e.to] = e.from;
-                    states.push(MP(d[e.to], e.to));
-                }
-            }
-        }
-    }
+const long long INF = 1e18;
+const int MAXN = ;
+struct Edge {
+  int at;
+  long long cost;
+  bool operator < (const Edge &other) const {
+    return cost > other.cost;
+  }
 };
 
-/*
-Usage
-Dijkstra dijkstra; // declare
-dijkstra.init();
-dijsktra.addEdge(int from, int to, int w); // add a directional Edge
-dijkstra.dijkstra(int s) // calculation shortest distance from s
-*/
+int n;
+long long dis[MAXN];
+vector<Edge> G[MAXN];
+
+void init() {
+  for (int i = 0; i < n; i++) {
+    G[i].clear();
+    dis[i] = INF;
+  }
+}
+void Dijkstra(int st, int ed = -1) {
+  priority_queue<Edge> pq;
+  pq.push({st, 0});
+  dis[st] = 0;
+  while (!pq.empty()) {
+    auto now = pq.top();
+    pq.pop();
+    if (now.at == ed) {
+      return;
+    }
+    if (now.cost > dis[now.at]) {
+      continue;
+    }
+    for (auto &e : G[now.at]) {
+      if (dis[e.at] > now.cost + e.cost) {
+        dis[e.at] = now.cost + e.cost;
+        pq.push({e.at, dis[e.at]});
+      }
+    }
+  }
+}

@@ -110,7 +110,7 @@ priority_queue <data_type> variable_name;
 // small to big
 sort(array_begin, array_least);
 // big to small
-sort(array_begin, array_least, greater()<data_type> );
+sort(array_begin, array_least, greater<data_type>() );
 swap(a, b);
 min(a, b);
 max(a, b);
